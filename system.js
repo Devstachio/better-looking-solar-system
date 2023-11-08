@@ -6,10 +6,9 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 50000);
 
-const canvas = document.querySelector('canvas.webgl')
 
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
+    canvas: document.querySelector('canvas.webgl'),
     alpha: true
 });
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -32,13 +31,9 @@ loader.load(
         // Add the loaded model to the scene
         gltf.scene.scale.set(0.5, 0.5, 0.5);
 
-        const sunLight = new THREE.PointLight(0xffffff, 150, 0, 0.3);
-
-        sunLight.position.set(0, 0, 0);
-
         sun = gltf.scene;
 
-        scene.add(gltf.scene, sunLight);
+        scene.add(gltf.scene, new THREE.PointLight(0xffffff, 150, 0, 0.3));
     },
     undefined,
     function (error) {
@@ -113,7 +108,6 @@ function addStar() {
 
     light.position.set(x, y, z);
     star.position.set(x, y, z);
-    scene.add(star, light);
 }
 let earthAngle = 0;
 let moonAngle = 0; 
