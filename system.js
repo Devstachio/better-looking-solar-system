@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 50000);
+const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 50000);
 
 
 const renderer = new THREE.WebGLRenderer({
@@ -89,8 +89,8 @@ loader.load(
 
 
 
-// add stars
-Array(100).fill().forEach(addStar);
+// add star
+//Array(200).fill().forEach(addStar);
 
 function addStar() {
     const star = new THREE.Mesh(new THREE.SphereGeometry(0.5, 25, 25), new THREE.MeshStandardMaterial({ color: 0xffffff }));
@@ -118,23 +118,31 @@ const animate = function () {
     //rotate the sun
 
     if (sun) {
-        sun.rotation.y += 0.0005;
+        sun.rotation.y += 0.00005;
         
     }
 
     //make the planet orbit the sun
     if (earth) {
         earth.rotation.y += 0.1;
-        earthAngle -= 0.0005;
+        earthAngle -= 0.001;
         earth.position.x = 1000 * Math.cos(earthAngle);
-        earth.position.z = 1000 * Math.sin(earthAngle);
+        earth.position.z = 700 * Math.sin(earthAngle);
     }
 
     if( moon){
         moon.rotation.y += 0.01;
         moonAngle -= 0.05; 
-        moon.position.x = earth.position.x + 75 * Math.cos(moonAngle);
-        moon.position.z = earth.position.z + 75 * Math.sin(moonAngle);
+        try{
+            moon.position.x = earth.position.x + 75 * Math.cos(moonAngle);
+            moon.position.z = earth.position.z + 75 * Math.sin(moonAngle);
+        }catch{
+            console.log("earth not loaded yet");
+            console.log("moonPos: ", moon.position.x, " ", moon.position.z);
+            moon.position.x = 0 + 75 * Math.cos(moonAngle);
+            moon.position.z = 0 + 75 * Math.sin(moonAngle);
+        }
+        
     }
 
 
