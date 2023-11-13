@@ -86,14 +86,14 @@ loader.load(
 
 let mercury = null;
 loader.load(
-    '/models/mercury.glb', 
+    '/models/mercury.glb',
     function (gltf) {
         // Add the loaded model to the scene
         gltf.scene.scale.set(0.05, 0.05, 0.05);
 
         mercury = gltf.scene;
         mercury.position.set(1000, 0, 0);
-        
+
         scene.add(gltf.scene);
     },
     undefined,
@@ -123,7 +123,7 @@ loader.load(
 let mars = null;
 loader.load(
     '/models/mars.glb',
-    function(gltf){
+    function (gltf) {
         gltf.scene.scale.set(0.05, 0.05, 0.05);
 
         mars = gltf.scene;
@@ -131,8 +131,8 @@ loader.load(
 
         scene.add(gltf.scene);
     },
-    undefined, 
-    function(error){
+    undefined,
+    function (error) {
         console.error(error);
     }
 );
@@ -166,11 +166,12 @@ let moonAngle = 0;
 let mercuryAngle = 0;
 let venusAngle = 0;
 let marsAngle = 0;
+let earthSunAngle = 0;
 
 let followingEarth = false;
 
 // Assuming you have a button with id 'center-earth'
-document.getElementById('center-earth').addEventListener('click', function() {
+document.getElementById('center-earth').addEventListener('click', function () {
     // Assuming 'camera' is your THREE.js camera and 'earth' is your Earth object
     camera.position.x = earth.position.x + 300;
     camera.position.y = earth.position.y;
@@ -178,18 +179,18 @@ document.getElementById('center-earth').addEventListener('click', function() {
     followingEarth = true;
 });
 
-document.getElementById('uncenter-earth').addEventListener('click', function() {
+document.getElementById('uncenter-earth').addEventListener('click', function () {
     // Assuming 'camera' is your THREE.js camera and 'earth' is your Earth object
-    
+
     followingEarth = false;
 });
 
-function cameraDistance(){
+function cameraDistance() {
     let x = camera.position.x;
     let y = camera.position.y;
     let z = camera.position.z;
 
-    return Math.sqrt(x*x + y*y + z*z);
+    return Math.sqrt(x * x + y * y + z * z);
 }
 
 const animate = function () {
@@ -199,7 +200,7 @@ const animate = function () {
 
     if (sun) {
         sun.rotation.y -= 0.00005;
-        
+
     }
 
     //make the planet orbit the sun
@@ -210,35 +211,35 @@ const animate = function () {
         earth.position.z = 2700 * Math.sin(earthAngle);
     }
 
-    if( moon){
+    if (moon) {
         moon.rotation.y += 0.01;
-        moonAngle -= 0.05; 
-        try{
+        moonAngle -= 0.05;
+        try {
             moon.position.x = earth.position.x + 75 * Math.cos(moonAngle);
             moon.position.z = earth.position.z + 75 * Math.sin(moonAngle);
-        }catch{
+        } catch {
             console.log("earth not loaded yet");
             moon.position.x = 0 + 75 * Math.cos(moonAngle);
             moon.position.z = 0 + 75 * Math.sin(moonAngle);
         }
-        
+
     }
 
-    if(mercury){
+    if (mercury) {
         mercury.rotation.y += 0.03;
         mercuryAngle -= 0.01;
         mercury.position.x = 1000 * Math.cos(mercuryAngle);
         mercury.position.z = 1000 * Math.sin(mercuryAngle);
     }
 
-    if(venus){
+    if (venus) {
         venus.rotation.y += 0.004;
         venusAngle -= 0.0035;
         venus.position.x = 2000 * Math.cos(venusAngle);
         venus.position.z = 2000 * Math.sin(venusAngle);
-    }  
-    
-    if(mars){
+    }
+
+    if (mars) {
         mars.rotation.y += 0.09;
         marsAngle -= 0.0019;
         mars.position.x = 4000 * Math.cos(marsAngle);
@@ -246,11 +247,12 @@ const animate = function () {
     }
 
     // make the camera orbit the sun with the distance like earth
-    if(followingEarth){
+    if (followingEarth) {
         let distance = 800;
-        camera.position.x = earth.position.x + distance * Math.cos(earthAngle);
-        camera.position.z = earth.position.z + distance * Math.sin(earthAngle);
-        camera.position.y = earth.position.y+100;
+        earthSunAngle = Math.atan2(earth.position.z, earth.position.x);
+        camera.position.x = earth.position.x + distance * Math.cos(earthSunAngle);
+        camera.position.z = earth.position.z + distance * Math.sin(earthSunAngle);
+        camera.position.y = earth.position.y + 100;
     }
 
 
