@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 50000);
+const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 60000);
 
 
 const renderer = new THREE.WebGLRenderer({
@@ -145,7 +145,7 @@ Array(100).fill().forEach(addStar);
 
 function addStar() {
     const star = new THREE.Mesh(new THREE.SphereGeometry(0.5, 25, 25), new THREE.MeshStandardMaterial({ color: 0xffffff }));
-    const light = new THREE.PointLight(0xffffff, 2, 0, 0.8);
+    const light = new THREE.PointLight(0xffffff, 10, 0, 0.8);
 
     // Generate random spherical coordinates
     let radius = Math.random() * 300 + 2000; // radius is not less than 900
@@ -208,14 +208,14 @@ const animate = function () {
     }
 
     if(venus){
-        venus.rotation.y += 0.003;
-        venusAngle -= 0.004;
+        venus.rotation.y += 0.004;
+        venusAngle -= 0.0035;
         venus.position.x = 2000 * Math.cos(venusAngle);
         venus.position.z = 2000 * Math.sin(venusAngle);
     }  
     
     if(mars){
-        mars.rotation.y += 0.009;
+        mars.rotation.y += 0.09;
         marsAngle -= 0.0019;
         mars.position.x = 4000 * Math.cos(marsAngle);
         mars.position.z = 4000 * Math.sin(marsAngle);
