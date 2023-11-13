@@ -170,6 +170,12 @@ let earthSunAngle = 0;
 
 let followingEarth = false;
 
+//adding a little light to follow the camera
+const light = new THREE.PointLight(0xffffff, 200, 0, 0.8);
+light.position.set(0, 0, 0);
+scene.add(light);
+
+
 // Assuming you have a button with id 'center-earth'
 document.getElementById('center-earth').addEventListener('click', function () {
     // Assuming 'camera' is your THREE.js camera and 'earth' is your Earth object
@@ -253,7 +259,12 @@ const animate = function () {
         camera.position.x = earth.position.x + distance * Math.cos(earthSunAngle);
         camera.position.z = earth.position.z + distance * Math.sin(earthSunAngle);
         camera.position.y = earth.position.y + 100;
+
     }
+
+    // make the light follow the camera
+    light.position.set(camera.position.x, camera.position.y, camera.position.z);
+
 
 
     controls.update();
