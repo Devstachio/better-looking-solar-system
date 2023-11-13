@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 60000);
+const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100000);
 
 
 const renderer = new THREE.WebGLRenderer({
@@ -167,13 +167,38 @@ let mercuryAngle = 0;
 let venusAngle = 0;
 let marsAngle = 0;
 
+let followingEarth = false;
+
+// Assuming you have a button with id 'center-earth'
+document.getElementById('center-earth').addEventListener('click', function() {
+    // Assuming 'camera' is your THREE.js camera and 'earth' is your Earth object
+    camera.position.x = earth.position.x + 300;
+    camera.position.y = earth.position.y;
+    camera.position.z = earth.position.z;
+    followingEarth = true;
+});
+
+document.getElementById('uncenter-earth').addEventListener('click', function() {
+    // Assuming 'camera' is your THREE.js camera and 'earth' is your Earth object
+    
+    followingEarth = false;
+});
+
+function cameraDistance(){
+    let x = camera.position.x;
+    let y = camera.position.y;
+    let z = camera.position.z;
+
+    return Math.sqrt(x*x + y*y + z*z);
+}
+
 const animate = function () {
     requestAnimationFrame(animate);
 
     //rotate the sun
 
     if (sun) {
-        sun.rotation.y += 0.00005;
+        sun.rotation.y -= 0.00005;
         
     }
 
@@ -193,7 +218,6 @@ const animate = function () {
             moon.position.z = earth.position.z + 75 * Math.sin(moonAngle);
         }catch{
             console.log("earth not loaded yet");
-            console.log("moonPos: ", moon.position.x, " ", moon.position.z);
             moon.position.x = 0 + 75 * Math.cos(moonAngle);
             moon.position.z = 0 + 75 * Math.sin(moonAngle);
         }
@@ -221,7 +245,13 @@ const animate = function () {
         mars.position.z = 4000 * Math.sin(marsAngle);
     }
 
-
+    // make the camera orbit the sun with the distance like earth
+    if(followingEarth){
+        let distance = 800;
+        camera.position.x = earth.position.x + distance * Math.cos(earthAngle);
+        camera.position.z = earth.position.z + distance * Math.sin(earthAngle);
+        camera.position.y = earth.position.y+100;
+    }
 
 
     controls.update();

@@ -13,3 +13,19 @@ body{
     left: 0;
     outline: none;
 }
+
+.center-earth{
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.uncenter-earth{
+    position: absolute;
+    top: 10%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
