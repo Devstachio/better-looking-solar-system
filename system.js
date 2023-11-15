@@ -26,7 +26,7 @@ let sun = null;
 
 // Load your model
 loader.load(
-    '/models/sun.glb', // replace with the path to your model file
+    'dist/models/sun.glb', // replace with the path to your model file
     function (gltf) {
         // Add the loaded model to the scene
         gltf.scene.scale.set(0.5, 0.5, 0.5);
