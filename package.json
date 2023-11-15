@@ -1,5 +1,8 @@
 {
-  "dependencies": {
+  "name": "threejs-solar-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "system.js","dependencies": {
     "gh-pages": "^6.0.0",
     "three": "^0.158.0"
   },
