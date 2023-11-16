@@ -1,5 +1,5 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import * as THREE from 'https://unpkg.com/three@0.127.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.127.0/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 
@@ -23,7 +23,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const loader = new GLTFLoader();
 
 let sun = null;
-
+/*
 // Load your model
 loader.load(
     '/models/sun.glb', // replace with the path to your model file
@@ -136,6 +136,15 @@ loader.load(
         console.error(error);
     }
 );
+*/
+
+// makes just a sphere
+function makeSphere(radius, color) {
+    const sphere = new THREE.Mesh(new THREE.SphereGeometry(radius, 25, 25), new THREE.MeshStandardMaterial({ color: color }));
+    return sphere;
+}
+
+scene.add(makeSphere(100, 0xffffff));
 
 
 
